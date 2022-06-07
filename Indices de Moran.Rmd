@@ -1,0 +1,174 @@
+---
+title: "Indices de Moran"
+author: "Karen Rojas"
+date: "7/6/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(ape)
+library(dplyr)
+library(Hmisc)
+library(readxl)
+```
+
+## Datos georefenciados (área)
+
+```{r}
+
+XPABLO <- read_excel("C:/Users/karen/OneDrive/Desktop/Computacion/XPABLO.xlsx")
+View(XPABLO)
+```
+
+
+
+## Matriz de distacia 
+
+```{r}
+dist_matrix <- as.matrix(dist(cbind(XPABLO$Long, XPABLO$Lat)))#;dist_matrix
+which.max(dist_matrix) # Es la posición de la máxima
+max(dist_matrix) # Mayor valor 
+min(dist_matrix) # Menor valor
+dim(dist_matrix)
+
+```
+## Inversa de la distancia
+```{r}
+dist_matrix_inv <- 1 / dist_matrix # Element wise
+diag(dist_matrix_inv) <- 0
+which.max(dist_matrix_inv) # Es la posición de la máxima
+max(dist_matrix_inv) # Mayor valor 
+min(dist_matrix_inv) # Menor valor
+```
+
+## Calcio
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Ca <- XPABLO$Ca
+color <- cut(Ca, breaks = 5)
+plot(xy, pch = 8, cex = 0.5, xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Materia orgánica
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+MO <- XPABLO$MO
+color <- cut(MO, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Magnesio
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Mg <- XPABLO$Mg
+color <- cut(Mg, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Potasio
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+K <- XPABLO$K
+color <- cut(K, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Sodio
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Na <- XPABLO$Na
+color <- cut(Na, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## CICE
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+CICE <- XPABLO$CICE
+color <- cut(CICE, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## CE
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+CE <- XPABLO$CE
+color <- cut(CE, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Hierro
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Fe <- XPABLO$Fe
+color <- cut(Fe, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Cobre
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Cu <- XPABLO$Cu
+color <- cut(Cu, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+## Zinc
+```{r}
+xy <- expand.grid(x = XPABLO$Long,
+                  y = XPABLO$Lat)
+Zn <- XPABLO$Zn
+color <- cut(Zn, breaks = 5)
+plot(xy, pch = 8, cex = 0.5,xlab="Longitud", ylab= "Latitud", col = color)
+
+```
+# Indices de Moran
+```{r}
+Ca1 <- Moran.I(Ca, dist_matrix_inv)# p.value < 0.05 <- Dependencia espacial
+Ca1
+
+MO1 <- Moran.I(MO, dist_matrix_inv)
+MO1
+
+Mg1 <- Moran.I(Mg, dist_matrix_inv)
+Mg1
+
+K1 <- Moran.I(K, dist_matrix_inv)
+K1
+
+Na1 <- Moran.I(Na, dist_matrix_inv)
+Na1
+
+CICE1 <- Moran.I(CICE, dist_matrix_inv)
+CICE1
+
+CE1 <- Moran.I(CE, dist_matrix_inv)
+CE1
+
+Fe1 <- Moran.I(Fe, dist_matrix_inv)
+Fe1
+
+Cu1 <- Moran.I(Cu, dist_matrix_inv)
+Cu1
+
+Zn1 <- Moran.I(Zn, dist_matrix_inv)
+Zn1
+```
+
+
